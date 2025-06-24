@@ -2,6 +2,9 @@ package org.suhodo.cardatabase.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = "cars")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +32,7 @@ public class Owner {
     private String firstname;
     private String lastname;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @JsonIgnore     // json으로 보내지마!
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
     private List<Car> cars;
 }
