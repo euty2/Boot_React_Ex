@@ -1,11 +1,15 @@
 package org.suhodo.cardatabase;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.suhodo.cardatabase.domain.Car;
 import org.suhodo.cardatabase.repository.CarRepository;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 @SpringBootTest
 class CardatabaseApplicationTests {
 
@@ -46,5 +50,12 @@ class CardatabaseApplicationTests {
 						.build();
 		
 		carRepository.save(hyundaiCar);
+	}
+
+	@Test
+	public void TestFindAll(){
+		List<Car> carList = carRepository.findAll();
+
+		carList.stream().forEach(car -> log.info(car));
 	}
 }
