@@ -19,7 +19,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "cars")
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
