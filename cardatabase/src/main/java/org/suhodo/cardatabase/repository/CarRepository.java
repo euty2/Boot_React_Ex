@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.suhodo.cardatabase.domain.Car;
 
+// http:localhost:9999/api/cars/search 조회
 
+// Query Method를 Rest 서비스에 포함
 @RepositoryRestResource
 public interface CarRepository extends JpaRepository<Car, Long> {
 

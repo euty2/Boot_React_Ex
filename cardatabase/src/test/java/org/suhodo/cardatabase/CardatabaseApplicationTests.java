@@ -3,7 +3,6 @@ package org.suhodo.cardatabase;
 import java.util.Arrays;
 import java.util.List;
 
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,134 +34,131 @@ class CardatabaseApplicationTests {
 	private PasswordEncoder passwordEncoder;
 
 	@Test
-	public void TestCarRepository(){
+	public void TestCarRepository() {
 		Car fordCar = Car.builder()
-						.brand("Ford")
-						.model("Mustang")
-						.color("Red")
-						.registrationNumber("T-1111")
-						.modelYear(2025)
-						.price(5400)
-						.build();
-		
+				.brand("Ford")
+				.model("Mustang")
+				.color("Red")
+				.registrationNumber("T-111")
+				.modelYear(2025)
+				.price(5400)
+				.build();
 		carRepository.save(fordCar);
 
 		Car kiaCar = Car.builder()
-						.brand("Kia")
-						.model("K-5")
-						.color("Silver")
-						.registrationNumber("K-111")
-						.modelYear(2025)
-						.price(6400)
-						.build();
-		
+				.brand("Kia")
+				.model("K-5")
+				.color("Silver")
+				.registrationNumber("K-111")
+				.modelYear(2025)
+				.price(6400)
+				.build();
 		carRepository.save(kiaCar);
 
-		Car hyundaiCar = Car.builder()
-						.brand("Hyundai")
-						.model("Genesis")
-						.color("Black")
-						.registrationNumber("H-111")
-						.modelYear(2025)
-						.price(7400)
-						.build();
-		
-		carRepository.save(hyundaiCar);
+		Car hyndaiCar = Car.builder()
+				.brand("Hyundai")
+				.model("Genesis")
+				.color("Black")
+				.registrationNumber("H-111")
+				.modelYear(2025)
+				.price(7800)
+				.build();
+		carRepository.save(hyndaiCar);
 	}
 
 	@Test
-	public void TestFindAll(){
+	public void TestFindAll() {
 		List<Car> carList = carRepository.findAll();
 
 		carList.stream().forEach(car -> log.info(car));
 	}
 
 	@Test
-	public void TestDeleteAllCar(){
+	public void TestDelteAllCar() {
 		carRepository.deleteAll();
 	}
 
 	@Test
-	public void TestOwnerCar(){
+	public void TestOwnerCar() {
+		// 부모 엔티티
 		Owner owner1 = Owner.builder()
-						.firstname("John")
-						.lastname("Johnson")
-						.build();
+				.firstname("John")
+				.lastname("Johnson")
+				.build();
 
 		Owner owner2 = Owner.builder()
-						.firstname("Mary")
-						.lastname("Robinson")
-						.build();	
-						
+				.firstname("Mary")
+				.lastname("Robinson")
+				.build();
+
+		// 부모 엔티티를 먼저 저장해야 한다.
 		ownerRepository.saveAll(Arrays.asList(owner1, owner2));
 
+		/* 자식 엔티티에 부모 엔티티를 연결시켜야한다. */
+
+		// 자식 엔티티
 		Car fordCar = Car.builder()
-		.brand("Ford")
-		.model("Mustang")
-		.color("Red")
-		.registrationNumber("T-1111")
-		.modelYear(2025)
-		.price(5400)
-		.owner(owner1)
-		.build();
-		
+				.brand("Ford")
+				.model("Mustang")
+				.color("Red")
+				.registrationNumber("T-111")
+				.modelYear(2025)
+				.price(5400)
+				.owner(owner1)
+				.build();
 		carRepository.save(fordCar);
 
 		Car kiaCar = Car.builder()
-						.brand("Kia")
-						.model("K-5")
-						.color("Silver")
-						.registrationNumber("K-111")
-						.modelYear(2025)
-						.price(6400)
-						.owner(owner2)
-						.build();
-		
+				.brand("Kia")
+				.model("K-5")
+				.color("Silver")
+				.registrationNumber("K-111")
+				.modelYear(2025)
+				.price(6400)
+				.owner(owner2)
+				.build();
 		carRepository.save(kiaCar);
 
-		Car hyundaiCar = Car.builder()
-						.brand("Hyundai")
-						.model("Genesis")
-						.color("Black")
-						.registrationNumber("H-111")
-						.modelYear(2025)
-						.price(7400)
-						.owner(owner2)
-						.build();
-		
-		carRepository.save(hyundaiCar);
+		Car hyndaiCar = Car.builder()
+				.brand("Hyundai")
+				.model("Genesis")
+				.color("Black")
+				.registrationNumber("H-111")
+				.modelYear(2025)
+				.price(7800)
+				.owner(owner2)
+				.build();
+		carRepository.save(hyndaiCar);
 	}
 
 	@Transactional
 	@Test
-	public void TestSelectOwner(){
+	public void TestSelectOwner() {
 		List<Owner> ownerList = ownerRepository.findAll();
-
 		ownerList.stream().forEach(owner -> log.info(owner));
 	}
 
 	@Test
-	public void TestSelectCar(){
+	public void TestSelectCar() {
 		List<Car> carList = carRepository.findAll();
-
 		carList.stream().forEach(car -> log.info(car));
 	}
 
 	@Test
-	public void TestRegisterAppUser(){
+	public void TestRegisterAppUser() {
 
 		AppUser appUser0 = AppUser.builder()
-							.username("user")
-							.password(passwordEncoder.encode("user"))
-							.role("USER")
-							.build();
-							
+				.username("user")
+				.password(passwordEncoder.encode("user"))
+				.role("USER")
+				.build();
+
 		AppUser appUser1 = AppUser.builder()
-							.username("admin")
-							.password(passwordEncoder.encode("admin"))
-							.role("ADMIN")
-							.build();
-		
+				.username("admin")
+				.password(passwordEncoder.encode("admin"))
+				.role("ADMIN")
+				.build();
+
 		appUserRepository.saveAll(Arrays.asList(appUser0, appUser1));
 	}
 }

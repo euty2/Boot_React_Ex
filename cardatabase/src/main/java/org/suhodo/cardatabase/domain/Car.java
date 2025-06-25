@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString(exclude = "owner")
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String brand;
@@ -31,7 +31,7 @@ public class Car {
     private int modelYear;
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="owner")
     private Owner owner;
 }
