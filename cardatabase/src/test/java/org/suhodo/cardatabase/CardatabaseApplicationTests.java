@@ -7,8 +7,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.suhodo.cardatabase.domain.AppUser;
 import org.suhodo.cardatabase.domain.Car;
 import org.suhodo.cardatabase.domain.Owner;
+import org.suhodo.cardatabase.repository.AppUserRepository;
 import org.suhodo.cardatabase.repository.CarRepository;
 import org.suhodo.cardatabase.repository.OwnerRepository;
 
@@ -24,6 +27,12 @@ class CardatabaseApplicationTests {
 
 	@Autowired
 	private OwnerRepository ownerRepository;
+
+	@Autowired
+	private AppUserRepository appUserRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Test
 	public void TestCarRepository(){
@@ -137,5 +146,23 @@ class CardatabaseApplicationTests {
 		List<Car> carList = carRepository.findAll();
 
 		carList.stream().forEach(car -> log.info(car));
+	}
+
+	@Test
+	public void TestRegisterAppUser(){
+
+		AppUser appUser0 = AppUser.builder()
+							.username("user")
+							.password(passwordEncoder.encode("user"))
+							.role("USER")
+							.build();
+							
+		AppUser appUser1 = AppUser.builder()
+							.username("admin")
+							.password(passwordEncoder.encode("admin"))
+							.role("ADMIN")
+							.build();
+		
+		appUserRepository.saveAll(Arrays.asList(appUser0, appUser1));
 	}
 }
